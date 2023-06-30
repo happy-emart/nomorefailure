@@ -39,16 +39,19 @@ public class MainActivity extends AppCompatActivity {
                 textView1.setVisibility(View.VISIBLE) ;
                 textView2.setVisibility(View.INVISIBLE) ;
                 textView3.setVisibility(View.INVISIBLE) ;
+
                 break ;
             case 1 :
                 textView1.setVisibility(View.INVISIBLE) ;
                 textView2.setVisibility(View.VISIBLE) ;
                 textView3.setVisibility(View.INVISIBLE) ;
+
                 break ;
             case 2 :
                 textView1.setVisibility(View.INVISIBLE) ;
                 textView2.setVisibility(View.INVISIBLE) ;
                 textView3.setVisibility(View.VISIBLE) ;
+
                 break ;
 
         }
