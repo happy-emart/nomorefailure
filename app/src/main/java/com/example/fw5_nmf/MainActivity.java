@@ -24,39 +24,49 @@ import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
+    private FragmentManager fragmentManager;
+    private Fragment1 fragment1;
+    private Fragment2 fragment2;
+    private Fragment3 fragment3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TabLayout tabLayout = findViewById(R.id.tabs) ;
+        TabLayout tabLayout = findViewById(R.id.tabs);
+
+        fragmentManager = getSupportFragmentManager();
+        fragment1 = new Fragment1();
+        fragment2 = new Fragment2();
+        fragment3 = new Fragment3();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.contents, fragment1);
+        fragmentTransaction.commit();
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
                 if (tab.getPosition() == 0) {
-                    fragmentTransaction.replace(R.id.contents, new Fragment1());
+                    transaction.replace(R.id.contents, fragment1);
                 } else if (tab.getPosition() == 1) {
-                    fragmentTransaction.replace(R.id.contents, new Fragment2());
+                    transaction.replace(R.id.contents, fragment2);
                 } else if (tab.getPosition() == 2) {
-                    fragmentTransaction.replace(R.id.contents, new Fragment3());
+                    transaction.replace(R.id.contents, fragment3);
                 }
-                // 필요한 만큼 조건을 추가하여 다른 프래그먼트를 보여줄 수 있습니다.
-
-                fragmentTransaction.commit();
+                transaction.commit();
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 // do nothing
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 // do nothing
             }
-        }) ;
+        });
     }
-
 }
