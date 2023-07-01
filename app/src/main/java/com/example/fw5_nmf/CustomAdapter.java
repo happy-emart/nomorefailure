@@ -8,47 +8,46 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
-    private ArrayList<Contact> localDataSet;
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>{
+    private ArrayList<String> localDataSet;
 
+    //===== 뷰홀더 클래스 =====================================================
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView nameView;
-        private TextView numberView;
-
+        private TextView textView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            nameView = itemView.findViewById(R.id.nameView);
-            numberView = itemView.findViewById(R.id.textView);
+            textView = itemView.findViewById(R.id.textView);
         }
-
-        public TextView getNameView() {
-            return nameView;
-        }
-
-        public TextView getNumberView() {
-            return numberView;
+        public TextView getTextView() {
+            return textView;
         }
     }
+    //========================================================================
 
-    public CustomAdapter(ArrayList<Contact> dataSet) {
+    //----- 생성자 --------------------------------------
+    // 생성자를 통해서 데이터를 전달받도록 함
+    public CustomAdapter (ArrayList<String> dataSet) {
         localDataSet = dataSet;
     }
+    //--------------------------------------------------
 
     @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_view, parent, false);
-        return new ViewHolder(view);
+    @Override   // ViewHolder 객체를 생성하여 리턴한다.
+    public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.recycle_view, parent, false);
+        CustomAdapter.ViewHolder viewHolder = new CustomAdapter.ViewHolder(view);
+
+        return viewHolder;
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Contact contact = localDataSet.get(position);
-        holder.getNameView().setText(contact.getName());
-        holder.getNumberView().setText(contact.getNumber());
+    @Override   // ViewHolder안의 내용을 position에 해당되는 데이터로 교체한다.
+    public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
+        String text = localDataSet.get(position);
+        holder.textView.setText(text);
     }
 
-    @Override
+    @Override   // 전체 데이터의 갯수를 리턴한다.
     public int getItemCount() {
         return localDataSet.size();
     }

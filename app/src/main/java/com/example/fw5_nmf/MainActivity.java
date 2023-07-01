@@ -1,28 +1,36 @@
 package com.example.fw5_nmf;
 
+import static androidx.core.content.ContentProviderCompat.requireContext;
+
+import static java.security.AccessController.getContext;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private ArrayList<Contact> contactList;
     private CustomAdapter customAdapter;
+    private ArrayList<String> testDataSet;
     private TextView textView1, textView2, textView3;
 
     @Override
@@ -35,14 +43,14 @@ public class MainActivity extends AppCompatActivity {
         textView2 = findViewById(R.id.text2);
         textView3 = findViewById(R.id.text3);
 
-        recyclerView = findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+        testDataSet = new ArrayList<>();
 
-        contactList = new ArrayList<Contact>();
         loadJSONData();
 
-        customAdapter = new CustomAdapter(contactList);
+        recyclerView = findViewById(R.id.recyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager((Context) this);
+        recyclerView.setLayoutManager(linearLayoutManager);  // LayoutManager 설정
+        customAdapter = new CustomAdapter(testDataSet);
         recyclerView.setAdapter(customAdapter);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -62,22 +70,22 @@ public class MainActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
+
+
     }
 
     private void loadJSONData() {
         try {
             String json = loadJSONFromAsset();
             if (json != null) {
-                JSONObject jsonObject = new JSONObject(json);
-                JSONArray jsonArray = jsonObject.getJSONArray("phonenumber");
+                JSONArray jsonArray = new JSONArray(json);
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject entry = jsonArray.getJSONObject(i);
                     String name = entry.getString("name");
                     String number = entry.getString("number");
-
-                    Contact contact = new Contact(name, number);
-                    contactList.add(contact);
+                    String data = name + ": " + number;
+                    testDataSet.add(data);
                 }
             }
         } catch (JSONException e) {
@@ -89,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         String json;
         try {
             AssetManager assetManager = getAssets();
-            InputStream inputStream = assetManager.open("phonenumber.json");
+            InputStream inputStream = assetManager.open("phone-number.json");
             int size = inputStream.available();
             byte[] buffer = new byte[size];
             inputStream.read(buffer);

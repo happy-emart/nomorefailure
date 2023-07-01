@@ -3,7 +3,7 @@
     <string name="tab1">Menu 1</string>
     <string name="tab2">Menu 2</string>
     <string name="tab3">Menu 3</string>
-    <string name="text1">Phone Number List</string>
+    <string name="text1">전화번호부</string>
     <string name="text2">Image</string>
     <string name="text3">Text 3</string>
 </resources>
