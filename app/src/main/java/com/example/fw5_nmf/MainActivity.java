@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.fw5_nmf.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
 
 import android.content.Context;
@@ -24,6 +26,8 @@ import android.widget.Toast;
 
 
 public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

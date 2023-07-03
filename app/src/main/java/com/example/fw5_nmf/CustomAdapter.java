@@ -36,9 +36,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycle_view, parent, false);
-        CustomAdapter.ViewHolder viewHolder = new CustomAdapter.ViewHolder(view);
-
-        return viewHolder;
+        return new CustomAdapter.ViewHolder(view);
     }
 
     @Override   // ViewHolder안의 내용을 position에 해당되는 데이터로 교체한다.
