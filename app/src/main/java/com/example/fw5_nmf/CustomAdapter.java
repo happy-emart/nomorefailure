@@ -8,47 +8,66 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder>{
+public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private ArrayList<String> localDataSet;
+    private OnItemLongClickListener itemLongClickListener;
 
-    //===== 뷰홀더 클래스 =====================================================
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public interface OnItemLongClickListener {
+        void onItemLongClick(int position);
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView textView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textView);
         }
+
         public TextView getTextView() {
             return textView;
         }
-    }
-    //========================================================================
 
-    //----- 생성자 --------------------------------------
-    // 생성자를 통해서 데이터를 전달받도록 함
-    public CustomAdapter (ArrayList<String> dataSet) {
+        @Override
+        public void onClick(View view) {
+
+        }
+    }
+
+    public CustomAdapter(ArrayList<String> dataSet) {
         localDataSet = dataSet;
     }
-    //--------------------------------------------------
 
     @NonNull
-    @Override   // ViewHolder 객체를 생성하여 리턴한다.
-    public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recycle_view, parent, false);
-        CustomAdapter.ViewHolder viewHolder = new CustomAdapter.ViewHolder(view);
-
+        ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
-    @Override   // ViewHolder안의 내용을 position에 해당되는 데이터로 교체한다.
-    public void onBindViewHolder(@NonNull CustomAdapter.ViewHolder holder, int position) {
-        String text = localDataSet.get(position);
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        String text = localDataSet.get(holder.getAdapterPosition());
         holder.textView.setText(text);
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (itemLongClickListener != null) {
+                    itemLongClickListener.onItemLongClick(holder.getAdapterPosition());
+                }
+                return true;
+            }
+        });
     }
 
-    @Override   // 전체 데이터의 갯수를 리턴한다.
+    @Override
     public int getItemCount() {
         return localDataSet.size();
+    }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener listener) {
+        this.itemLongClickListener = listener;
     }
 }
