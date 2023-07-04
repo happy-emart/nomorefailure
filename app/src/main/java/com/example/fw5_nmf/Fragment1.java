@@ -69,7 +69,7 @@ public class Fragment1 extends Fragment {
                     JSONObject entry = jsonArray.getJSONObject(i);
                     String name = entry.getString("name");
                     String number = entry.getString("number");
-                    String data = name + ": " + number;
+                    String data = name + "\n" + number;
                     testDataSet.add(data);
                 }
             }
@@ -94,7 +94,8 @@ public class Fragment1 extends Fragment {
         }
         return null;
     }
-    public static void addToTestDataSet(String data) {
+    public static void addToTestDataSet(String name, String number) {
+        String data = name + "\n" + number;
         testDataSet.add(data);
         customAdapter.notifyDataSetChanged();
     }

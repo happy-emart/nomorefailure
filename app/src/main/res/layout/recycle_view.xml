@@ -2,12 +2,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:orientation="horizontal">
+    android:background="@color/gray"
+    android:orientation="vertical">
     <TextView
-        android:id="@+id/textView"
-        android:background="@drawable/textlayout"
+        android:id="@+id/nametextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="32dp"
+        android:textSize="20dp"
+        android:textColor="@color/white"
         android:text="text"/>
+    <TextView
+        android:id="@+id/numberTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="12dp"/>
 </LinearLayout>

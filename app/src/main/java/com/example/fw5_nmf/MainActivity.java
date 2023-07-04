@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private Fragment1 fragment1;
     private Fragment2 fragment2;
     private Fragment3 fragment3;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.contents, fragment1);
         fragmentTransaction.commit();
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -58,12 +56,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 transaction.commit();
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 // do nothing
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
                 // do nothing

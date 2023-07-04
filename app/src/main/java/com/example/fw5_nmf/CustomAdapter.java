@@ -12,33 +12,30 @@ import java.util.ArrayList;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private ArrayList<String> localDataSet;
     private OnItemLongClickListener itemLongClickListener;
-
     public interface OnItemLongClickListener {
         void onItemLongClick(int position);
     }
-
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView textView;
-
+        private TextView nametextView;
+        private TextView numbertextView;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
+            nametextView = itemView.findViewById(R.id.nametextView);
+            numbertextView = itemView.findViewById(R.id.numberTextView);
+        }
+        public TextView getNameTextView() {
+            return nametextView;
         }
 
-        public TextView getTextView() {
-            return textView;
-        }
-
+        public TextView getNumbertextView() {return numbertextView; }
         @Override
         public void onClick(View view) {
 
         }
     }
-
     public CustomAdapter(ArrayList<String> dataSet) {
         localDataSet = dataSet;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -47,11 +44,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String text = localDataSet.get(holder.getAdapterPosition());
-        holder.textView.setText(text);
+        String[] data = localDataSet.get(holder.getAdapterPosition()).split("\n");
+        String name = data[0];
+        String number = data[1];
+        holder.getNameTextView().setText(name);
+        holder.getNumbertextView().setText(number);
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -62,13 +61,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             }
         });
     }
-
     @Override
     public int getItemCount() {
         Log.d("getItemCountFromCA", String.valueOf(localDataSet.size()));
         return localDataSet.size();
     }
-
     public void setOnItemLongClickListener(OnItemLongClickListener listener) {
         this.itemLongClickListener = listener;
     }

@@ -23,11 +23,10 @@ public class SubActivity extends AppCompatActivity {
 
                 String name = editText1.getText().toString();
                 String number = editText2.getText().toString();
-                String data = name + ": " + number;
                 if (name.isEmpty() || number.isEmpty()) {
                     Toast.makeText(SubActivity.this, "이름 또는 번호가 공백입니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    Fragment1.addToTestDataSet(data);
+                    Fragment1.addToTestDataSet(name, number);
                     finish();
                 }
             }
