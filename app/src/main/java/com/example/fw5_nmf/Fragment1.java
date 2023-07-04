@@ -25,13 +25,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class Fragment1 extends Fragment {
-
-
     private static ArrayList<String> testDataSet;
     private static CustomAdapter customAdapter;
-
     public Fragment1() {}
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_1, container, false);
