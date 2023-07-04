@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.fw5_nmf.databinding.Fragment3Binding;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Fragment3 extends Fragment {
@@ -62,10 +63,15 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClickText(int todo) {
                 View dialogView = View.inflate(getActivity(), R.layout.todofloat, null);
+                Todo target = data.get(todo);
                 CheckBox checkBox = dialogView.findViewById(R.id.todoCheckBox);
                 AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
                 TextView popup = dialogView.findViewById(R.id.popupTodoText);
-                popup.setText(data.get(todo).getText());
+                popup.setText(target.getText());
+                if(target.isDone()) {
+                    checkBox.setChecked(true);
+                    popup.setPaintFlags(popup.getPaintFlags()|Paint.STRIKE_THRU_TEXT_FLAG);
+                }
                 dlg.setTitle("TO-DO LIST");
                 dlg.setIcon(R.mipmap.ic_launcher);
                 dlg.setView(dialogView);
@@ -74,12 +80,12 @@ public class Fragment3 extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == DialogInterface.BUTTON_NEUTRAL) {
                             if (checkBox.isChecked()) {
-                                todoChecked(todo);
-                                todoAdapter.notifyItemChanged(todo);
+                                todoChecked(todo, data);
+//                                todoAdapter.notifyItemChanged(todo);
 //                                Log.d("greentea","CHECKED CLICK");
                             } else {
-                                todoUnchecked(todo);
-                                todoAdapter.notifyItemChanged(todo);
+                                todoUnchecked(todo, data);
+//                                todoAdapter.notifyItemChanged(todo);
                             }
                             //
                         }
@@ -100,17 +106,19 @@ public class Fragment3 extends Fragment {
         });
     }
 
-    public void todoChecked(int todo) {
+    public void todoChecked(int todo, ArrayList<Todo> data) {
         View viewOfTodo = binding.recyclerView.getLayoutManager().findViewByPosition(todo);
         TextView textTodo = viewOfTodo.findViewById(R.id.todoText);
         Log.d("greentea", String.valueOf(textTodo.getText()));
         textTodo.setPaintFlags(textTodo.getPaintFlags()|Paint.STRIKE_THRU_TEXT_FLAG);
+        data.get(todo).setDone(true);
     };
     //드디어 다했다!!!!!!
-    public void todoUnchecked(int todo) {
+    public void todoUnchecked(int todo, ArrayList<Todo> data) {
         View viewOfTodo = binding.recyclerView.getLayoutManager().findViewByPosition(todo);
         TextView textTodo = viewOfTodo.findViewById(R.id.todoText);
-        textTodo.setPaintFlags(textTodo.getPaintFlags()|~(Paint.STRIKE_THRU_TEXT_FLAG));
+        textTodo.setPaintFlags(textTodo.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+        data.get(todo).setDone(false);
     };
     //앗 좀 남았네,,,,,,
 
