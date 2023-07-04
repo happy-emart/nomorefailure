@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.fw5_nmf.databinding.ActivityMainBinding;
 import com.google.android.material.tabs.TabLayout;
 
 import android.content.Context;
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private Fragment1 fragment1;
     private Fragment2 fragment2;
     private Fragment3 fragment3;
+
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
