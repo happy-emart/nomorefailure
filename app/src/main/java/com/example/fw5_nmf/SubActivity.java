@@ -10,17 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class SubActivity extends AppCompatActivity {
-    private Fragment1 fragment1;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_data);
-        fragment1 = new Fragment1();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.add_contents, fragment1)
-                .commit();
         Button saveButton = findViewById(R.id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,17 +23,11 @@ public class SubActivity extends AppCompatActivity {
 
                 String name = editText1.getText().toString();
                 String number = editText2.getText().toString();
-
+                String data = name + ": " + number;
                 if (name.isEmpty() || number.isEmpty()) {
                     Toast.makeText(SubActivity.this, "이름 또는 번호가 공백입니다.", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (fragment1 != null) {
-                        Toast.makeText(SubActivity.this, "성공적으로 저장했습니다.", Toast.LENGTH_SHORT).show();
-                        String data = name + ": " + number;
-                        fragment1.addToTestDataSet(data);
-                    } else {
-                        Toast.makeText(SubActivity.this, "Fragment1이 초기화되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                    }
+                    Fragment1.addToTestDataSet(data);
                     finish();
                 }
             }

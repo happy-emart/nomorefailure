@@ -26,8 +26,9 @@ import java.util.ArrayList;
 
 public class Fragment1 extends Fragment {
 
-    private ArrayList<String> testDataSet;
-    private CustomAdapter customAdapter;
+
+    private static ArrayList<String> testDataSet;
+    private static CustomAdapter customAdapter;
 
     public Fragment1() {}
 
@@ -97,10 +98,9 @@ public class Fragment1 extends Fragment {
         }
         return null;
     }
-    public void addToTestDataSet(String data) {
+    public static void addToTestDataSet(String data) {
         testDataSet.add(data);
         customAdapter.notifyDataSetChanged();
-//        Log.d("dataaaa", testDataSet.get(testDataSet.size() - 1));
     }
 }
 
