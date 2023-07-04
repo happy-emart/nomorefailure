@@ -10,74 +10,84 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fw5_nmf.databinding.ItemTodoBinding;
+
 import java.util.ArrayList;
 
 
 public class TodoAdapter extends RecyclerView.Adapter<TodoAdapter.TodoViewHolder> {
-//    public ArrayList<Todo> localDataSet;
-    public ArrayList<String> localDataSet;
-    private OnItemClickListener onItemClickListener;
-//    private Context context;
-    public interface OnItemClickListener {
+    public ArrayList<Todo> localDataSet;
+    private OnDeleteClickListener onDeleteClickListener;
+    private OnTextClickListener onTextClickListener;
+    public interface OnDeleteClickListener {
         void onClickDeleteIcon(int todo);
     }
+    public interface OnTextClickListener {
+        void onClickText(int todo);
+    }
     public class TodoViewHolder extends RecyclerView.ViewHolder {
-        private TextView todoText;
-        private ImageView deleteImage;
+        public ItemTodoBinding binding;
 
-        public TodoViewHolder(@NonNull View itemView) {
-            super(itemView);
-            deleteImage = itemView.findViewById(R.id.delete_image);
-            todoText = itemView.findViewById(R.id.todoText);
-            deleteImage.setOnClickListener(new View.OnClickListener() {
+        public TodoViewHolder(@NonNull ItemTodoBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+            binding.deleteImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                        if (v.getId()==R.id.delete_image){
-//                        Log.d("greentea", String.valueOf(v.getId()==));
-                        if (onItemClickListener != null) {
-                            int todo = getAdapterPosition();
-                            if (todo != RecyclerView.NO_POSITION) {
-                                onItemClickListener.onClickDeleteIcon(todo);
-                            }
+                    if (onDeleteClickListener != null) {
+                        int todo = getAdapterPosition();
+                        if (todo != RecyclerView.NO_POSITION) {
+                            onDeleteClickListener.onClickDeleteIcon(todo);
                         }
-//                        }
+                    }
+                }
+            });
+            binding.todoText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onTextClickListener != null) {
+                        int todo = getAdapterPosition();
+                        if (todo != RecyclerView.NO_POSITION) {
+                            onTextClickListener.onClickText(todo);
+                        }
+                    }
                 }
             });
         }
         public TextView getTextView() {
-            return todoText;
+            return binding.todoText;
         }
     }
 
-    public TodoAdapter(ArrayList<String> dataSet){
-//    public TodoAdapter(ArrayList<Todo> dataSet){
+//    public TodoAdapter(ArrayList<String> dataSet){
+    public TodoAdapter(ArrayList<Todo> dataSet){
         localDataSet = dataSet;
-        Log.d("greentea", "THIS IS INIT OF TODOADAPTER");
+//        Log.d("greentea", "THIS IS INIT OF TODOADAPTER");
     }
 
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.onItemClickListener = listener;
+    public void setOnDeleteClickListener(OnDeleteClickListener listener) {
+        this.onDeleteClickListener = listener;
     }
-    public interface OnDeleteIconClickListener{
-        void onDeleteIconClick(Todo todo);
+
+    public void setOnTextClickListener(OnTextClickListener listener) {
+        this.onTextClickListener = listener;
     }
 
     @NonNull
     @Override
     public TodoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_todo, parent, false);
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_view, parent, false);
+//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_todo, parent, false);
+        ItemTodoBinding binding = ItemTodoBinding.inflate(LayoutInflater.from(parent.getContext()),parent, false);
         Log.d("greentea", "create viewholder");
-        return new TodoAdapter.TodoViewHolder(view);
+        return new TodoViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TodoAdapter.TodoViewHolder holder, int position){
-        Log.d("greentea", "todo.getText()");
-        String todo = localDataSet.get(position);
-//        Todo todo = localDataSet.get(position);
-//        holder.todoText.setText("todo.getText()");
-        holder.todoText.setText(todo);
+        Todo todo = localDataSet.get(position);
+        Log.d("greentea", todo.getText());
+        Log.d("greentea", String.valueOf(holder.binding.todoText));
+        holder.binding.todoText.setText(todo.getText());
     }
 
     @Override
