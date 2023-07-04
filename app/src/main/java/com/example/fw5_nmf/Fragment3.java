@@ -20,27 +20,29 @@ public class Fragment3 extends Fragment {
         // Required empty public constructor
     }
 
-    private ArrayList<Todo> data;
-    private TodoAdapter todoAdapter;
+//    private ArrayList<Todo> data;
+    private ArrayList<String> data;
+//    private TodoAdapter todoAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_3, container, false);
         data = new ArrayList<>();
-        data.add(new Todo("aa", false));
+//        data.add(new Todo("aa", false));
+        data.add("aaa");
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        todoAdapter = new TodoAdapter(data);
-        recyclerView.setAdapter(todoAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);  // LayoutManager 설정
-        //        todoAdapter.setOnItemClickListener(new TodoAdapter.OnItemClickListener(){
-//            @Override
-//            public void onClickDeleteIcon(int todo) {
-//                data.remove(todo);
-//                todoAdapter.notifyItemRemoved(todo);
-//            }
-//        });
+        TodoAdapter todoAdapter = new TodoAdapter(data);
+        recyclerView.setAdapter(todoAdapter);
+        todoAdapter.setOnItemClickListener(new TodoAdapter.OnItemClickListener(){
+            @Override
+            public void onClickDeleteIcon(int todo) {
+                data.remove(todo);
+                todoAdapter.notifyItemRemoved(todo);
+            }
+        });
 
         Button addButton = view.findViewById(R.id.add_button);
         addButton.setOnClickListener(new View.OnClickListener(){
@@ -48,11 +50,13 @@ public class Fragment3 extends Fragment {
             public void onClick(View v){
                 EditText editText = view.findViewById(R.id.editText);
                 String todoText = editText.getText().toString();
-                Todo todo = new Todo(todoText, false);
-                data.add(todo);
+//                Todo todo = new Todo(todoText, false);
+                data.add(todoText);
+//                data.add(todo);
+
                 todoAdapter.notifyItemInserted(data.size() -1);
                 editText.setText("");
-                System.out.println(data.get(data.size()-1).getText());
+                System.out.println(data.get(data.size()-1));
             }
         });
 

@@ -60,21 +60,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     public int getItemCount() {
         return galleryItemList.size();
     }
-//
-//    @Override
-//    public int getCount() {
-//        return picID.length;
-//    }
-//
-//    @Override
-//    public Object getItem(int i) {
-//        return null;
-//    }
-//
-//    @Override
-//    public long getItemId(int i) {
-//        return 0;
-//    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
