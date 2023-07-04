@@ -41,22 +41,35 @@ public class MainActivity extends AppCompatActivity {
         fragment2 = new Fragment2();
         fragment3 = new Fragment3();
 
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.contents, fragment1);
-        fragmentTransaction.commit();
+        if (fragment1 != null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.contents, fragment1);
+            fragmentTransaction.commit();
+        }
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                if (tab.getPosition() == 0) {
-                    transaction.replace(R.id.contents, fragment1);
-                } else if (tab.getPosition() == 1) {
-                    transaction.replace(R.id.contents, fragment2);
-                } else if (tab.getPosition() == 2) {
-                    transaction.replace(R.id.contents, fragment3);
+                int position = tab.getPosition();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                switch (position) {
+                    case 0:
+                        if (fragment1 != null) {
+                            fragmentTransaction.replace(R.id.text1contents, fragment1);
+                        }
+                        break;
+                    case 1:
+                        if (fragment2 != null) {
+                            fragmentTransaction.replace(R.id.gallery, fragment2);
+                        }
+                        break;
+                    case 2:
+                        if (fragment3 != null) {
+                            fragmentTransaction.replace(R.id.fragment3, fragment3);
+                        }
+                        break;
                 }
-                transaction.commit();
+                fragmentTransaction.commit(); // commit() 호출은 switch 문 이후에 한 번만 수행되도록 수정
             }
 
             @Override

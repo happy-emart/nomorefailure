@@ -1,5 +1,6 @@
 package com.example.fw5_nmf;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
+        Log.d("getItemCountFromCA", String.valueOf(localDataSet.size()));
         return localDataSet.size();
     }
 

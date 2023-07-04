@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,6 +96,11 @@ public class Fragment1 extends Fragment {
             e.printStackTrace();
         }
         return null;
+    }
+    public void addToTestDataSet(String data) {
+        testDataSet.add(data);
+        customAdapter.notifyDataSetChanged();
+//        Log.d("dataaaa", testDataSet.get(testDataSet.size() - 1));
     }
 }
 
