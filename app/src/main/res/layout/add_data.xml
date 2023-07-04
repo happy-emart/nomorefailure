@@ -3,37 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/add_contents">
-
+    android:id="@+id/add_contents"
+    android:background="@color/brightgray">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dodgerblue"
+        android:background="@color/darkgray"
+        android:textColor="@color/white"
         android:gravity="center"
         android:text="전화번호부 추가하기"
         android:textSize="30dp"
         android:id="@+id/title" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="이름 : "
         android:id="@+id/editText1"
         android:textSize="20dp" />
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="전화 번호 : "
         android:id="@+id/editText2"
         android:textSize="20dp"/>
-
     <Button
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:gravity="center"
         android:id="@+id/save_button"
-        android:text="저장"
-        android:background="@drawable/button_background" />
-
+        android:backgroundTint="@color/darkgray"
+        android:text="저장"/>
 </LinearLayout>
