@@ -70,6 +70,10 @@ public class Fragment3 extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerView.setAdapter(todoAdapter);
 
+        String mainQuote = jsonParser(requestQuote());
+        if (mainQuote.length() > 100) mainQuote = "태어난 김에 산다는 마인드가 일류다 - 장영욱";
+        binding.mainQuote.setText(mainQuote);
+
         todoAdapter.setOnDeleteClickListener(new TodoAdapter.OnDeleteClickListener(){
             @Override
             public void onClickDeleteIcon(int todo) {
