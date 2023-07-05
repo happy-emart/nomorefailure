@@ -32,19 +32,6 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
         this.onItemClickListener = listener;
     }
 
-    //    Integer[] picID = {
-//            R.drawable.pic1, R.drawable.pic2, R.drawable.pic3, R.drawable.pic4, R.drawable.pic5,
-//            R.drawable.pic6, R.drawable.pic7, R.drawable.pic8, R.drawable.pic9, R.drawable.pic10,
-//            R.drawable.pic1, R.drawable.pic2, R.drawable.pic3, R.drawable.pic4, R.drawable.pic5,
-//            R.drawable.pic6, R.drawable.pic7, R.drawable.pic8, R.drawable.pic9, R.drawable.pic10,
-//            R.drawable.pic1, R.drawable.pic2, R.drawable.pic3, R.drawable.pic4, R.drawable.pic5,
-//            R.drawable.pic6, R.drawable.pic7, R.drawable.pic8, R.drawable.pic9, R.drawable.pic10
-//    };
-
-    // BaseAdapter를 상속받은 클래스가 구현해야 할 함수들은
-    // { getCount(), getItem(), getItemId(), getView() }
-    // Ctrl + i 를 눌러 한꺼번에 구현할 수 있습니다.
-
     @NonNull
     @Override
     public GalleryAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
@@ -55,11 +42,10 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull GalleryAdapter.ViewHolder holder, int position){
         GalleryItem galleryItem = galleryItemList.get(position);
-//        holder.imageView.setImageResource(galleryItem.getImageResId());
         Glide.with(context)
                 .load(galleryItem.getImageResId())
-                .override(300, 300)
                 .into(holder.imageView);
+
     }
 
     @Override
