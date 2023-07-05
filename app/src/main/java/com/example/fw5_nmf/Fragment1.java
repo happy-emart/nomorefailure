@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -142,10 +143,8 @@ public class Fragment1 extends Fragment {
         customAdapter.notifyDataSetChanged();
     }
     private void makePhoneCall(int position) {
-        // 전화 거는 동작을 수행하는 코드를 작성하세요.
-        // 예시로 Toast 메시지를 보여주는 코드를 작성하였습니다.
         String number = getPhoneNumber(position);
-        Toast.makeText(requireContext(), "전화 거는 동작: " + number, Toast.LENGTH_SHORT).show();
+        startActivity(new Intent("android.intent.action.DIAL", Uri.parse(number)));
     }
     private void removeItem(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
