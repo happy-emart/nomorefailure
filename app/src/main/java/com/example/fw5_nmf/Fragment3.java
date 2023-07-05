@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fw5_nmf.databinding.Fragment3Binding;
 
@@ -34,6 +35,7 @@ public class Fragment3 extends Fragment {
 
     private Fragment3Binding binding;
     private ArrayList<Todo> data;
+    private Toast msg;
 //    private ArrayList<String> data;
 //    private TodoAdapter todoAdapter;
     @Override
@@ -81,11 +83,9 @@ public class Fragment3 extends Fragment {
                         if (which == DialogInterface.BUTTON_NEUTRAL) {
                             if (checkBox.isChecked()) {
                                 todoChecked(todo, data);
-//                                todoAdapter.notifyItemChanged(todo);
 //                                Log.d("greentea","CHECKED CLICK");
                             } else {
                                 todoUnchecked(todo, data);
-//                                todoAdapter.notifyItemChanged(todo);
                             }
                             //
                         }
@@ -98,10 +98,22 @@ public class Fragment3 extends Fragment {
         binding.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Todo todo = new Todo(binding.editText.getText().toString(), false);
-                data.add(todo);
-                todoAdapter.notifyItemInserted(data.size() - 1);
-                binding.editText.setText("");
+                String todoText = binding.editText.getText().toString();
+                if(todoText.length()>0){
+                    Todo todo = new Todo(todoText, false);
+                    data.add(todo);
+                    todoAdapter.notifyItemInserted(data.size() - 1);
+                    binding.editText.setText("");
+                    if (msg != null) msg.cancel();
+                    msg = Toast.makeText(getActivity(), "추가했습니다!", Toast.LENGTH_SHORT);
+                    msg.show();
+
+                } else {
+                    // 반투명 플로팅으로 텍스트를 입력해주세요 띄우기
+                    if (msg != null) msg.cancel();
+                    msg = Toast.makeText(getActivity(), "내용을 입력해주세요!", Toast.LENGTH_SHORT);
+                    msg.show();
+                }
             }
         });
     }
