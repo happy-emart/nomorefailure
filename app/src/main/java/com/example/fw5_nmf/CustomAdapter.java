@@ -53,4 +53,10 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         Log.d("getItemCountFromCA", String.valueOf(localDataSet.size()));
         return localDataSet.size();
     }
+    public void clearSwipeBackground() {
+        Fragment1.leftBackground = null;
+        Fragment1.rightBackground = null;
+        Fragment1.initiated = false;
+        notifyDataSetChanged();
+    }
 }
