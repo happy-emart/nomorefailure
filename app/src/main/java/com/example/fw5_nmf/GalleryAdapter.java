@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHolder> {
@@ -53,7 +55,11 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull GalleryAdapter.ViewHolder holder, int position){
         GalleryItem galleryItem = galleryItemList.get(position);
-        holder.imageView.setImageResource(galleryItem.getImageResId());
+//        holder.imageView.setImageResource(galleryItem.getImageResId());
+        Glide.with(context)
+                .load(galleryItem.getImageResId())
+                .override(300, 300)
+                .into(holder.imageView);
     }
 
     @Override
@@ -81,35 +87,4 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.ViewHold
             });
         }
     }
-//    @Override
-//    public View getView(int i, View view, ViewGroup viewGroup) {
-//        ImageView imageView = new ImageView(context);
-//        imageView.setLayoutParams(new ViewGroup.LayoutParams(200,300));
-//        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-//        imageView.setPadding(5,5,5,5);
-//
-//        imageView.setImageResource(picID[i]);
-//
-//
-//
-//        // 갤러리의 이미지뷰를 눌렀을 때
-//        // 다이얼로그뷰를 팝업하여 큰 이미지를 출력합니다.
-//        final int pos = i;
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                View dialogView = View.inflate(context, R.layout.dialog, null);
-//                AlertDialog.Builder dlg = new AlertDialog.Builder(context);
-//                ImageView ivPic = dialogView.findViewById(R.id.ivPic);
-//                ivPic.setImageResource(picID[pos]);
-//                dlg.setTitle("큰 이미지");
-//                dlg.setIcon(R.mipmap.ic_launcher);
-//                dlg.setView(dialogView);
-//                dlg.setNegativeButton("닫기", null);
-//                dlg.show();
-//            }
-//        });
-//
-//        return imageView;
-//    }
 }

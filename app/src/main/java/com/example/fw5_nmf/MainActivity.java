@@ -65,46 +65,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
-
-                // 키보드 숨기기
                 hideKeyboard();
             }
         });
-//        fragmentManager = getSupportFragmentManager();
-//        fragment1 = new Fragment1();
-//        fragment2 = new Fragment2();
-//        fragment3 = new Fragment3();
 
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.contents, fragment1);
-//        fragmentTransaction.commit();
-//        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//                FragmentTransaction transaction = fragmentManager.beginTransaction();
-//                if (tab.getPosition() == 0) {
-//                    transaction.replace(R.id.contents, fragment1);
-//                } else if (tab.getPosition() == 1) {
-//                    transaction.replace(R.id.contents, fragment2);
-//                } else if (tab.getPosition() == 2) {
-//                    transaction.replace(R.id.contents, fragment3);
-//                }
-//                transaction.commit();
-//            }
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//                // do nothing
-//            }
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//                // do nothing
-//            }
-//        });
     }
     private void hideKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         View view = getCurrentFocus();
         if (view != null) {
+
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
