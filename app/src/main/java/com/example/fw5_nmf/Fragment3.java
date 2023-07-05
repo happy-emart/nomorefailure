@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +72,11 @@ public class Fragment3 extends Fragment {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerView.setAdapter(todoAdapter);
 
+        String outQuote = jsonParser(requestQuote());
+        if (outQuote.length() > 100) outQuote = "태어난 김에 산다는 마인드가 일류다 - 장영욱";
+        binding.mainQuote.setText(outQuote);
+
+
         todoAdapter.setOnDeleteClickListener(new TodoAdapter.OnDeleteClickListener(){
             @Override
             public void onClickDeleteIcon(int todo) {
@@ -95,7 +102,7 @@ public class Fragment3 extends Fragment {
                     popup.setPaintFlags(popup.getPaintFlags()|Paint.STRIKE_THRU_TEXT_FLAG);
                 }
                 String text = requestQuote();
-                Log.d("greentea", text);
+//                Log.d("greentea", text);
                 String niceQuote = jsonParser(requestQuote());
                 if (niceQuote.length() > 100) niceQuote = "태어난 김에 산다는 마인드가 일류다 - 장영욱";
                 quote.setText(niceQuote);
@@ -116,7 +123,14 @@ public class Fragment3 extends Fragment {
                         }
                     }
                 });
-                dlg.show();
+                AlertDialog alertDialog = dlg.create();
+                Button neutralButton = alertDialog.getButton(DialogInterface.BUTTON_NEUTRAL);
+                if (neutralButton != null) {
+                    LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) neutralButton.getLayoutParams();
+                    layoutParams.gravity = Gravity.CENTER;
+                    neutralButton.setLayoutParams(layoutParams);
+                }
+                alertDialog.show();
             }
         });
 
