@@ -144,7 +144,13 @@ public class Fragment1 extends Fragment {
     }
     private void makePhoneCall(int position) {
         String number = getPhoneNumber(position);
-        startActivity(new Intent("android.intent.action.DIAL", Uri.parse(number)));
+        Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+        dialIntent.setData(Uri.parse("tel:" + number));
+        if (getActivity() != null && dialIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(dialIntent);
+        } else {
+            Toast.makeText(getActivity(), "전화 걸기 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
+        }
     }
     private void removeItem(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());

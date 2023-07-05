@@ -23,7 +23,9 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="전화 번호 : "
+        android:inputType="number"
+        android:digits="0123456789"
+        android:hint="전화 번호(번호만 입력해주세욥!) : "
         android:id="@+id/editText2"
         android:textSize="20dp"/>
     <Button

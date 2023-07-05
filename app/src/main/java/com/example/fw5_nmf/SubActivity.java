@@ -23,13 +23,22 @@ public class SubActivity extends AppCompatActivity {
 
                 String name = editText1.getText().toString();
                 String number = editText2.getText().toString();
-                if (name.isEmpty() || number.isEmpty()) {
-                    Toast.makeText(SubActivity.this, "이름 또는 번호가 공백입니다.", Toast.LENGTH_SHORT).show();
+                if (name.isEmpty() || number.isEmpty() || isValidPhoneNumber(number) == false) {
+                    Toast.makeText(SubActivity.this, "이름 또는 번호가 공백이거나 전화번호가 유효한 값이 아닙니다.", Toast.LENGTH_SHORT).show();
                 } else {
                     Fragment1.addToTestDataSet(name, number);
                     finish();
                 }
             }
         });
+    }
+    private boolean isValidPhoneNumber(String number) {
+        if(!number.matches("\\d+")){
+            return false;
+        }
+        if(number.length() != 11){
+            return false;
+        }
+        return number.startsWith("010");
     }
 }
