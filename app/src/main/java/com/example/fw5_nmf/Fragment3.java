@@ -25,7 +25,24 @@ import android.widget.Toast;
 import com.example.fw5_nmf.databinding.Fragment3Binding;
 
 import java.lang.reflect.Array;
+import java.net.MalformedURLException;
+import java.nio.Buffer;
 import java.util.ArrayList;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class Fragment3 extends Fragment {
 
@@ -65,17 +82,25 @@ public class Fragment3 extends Fragment {
             @Override
             public void onClickText(int todo) {
                 View dialogView = View.inflate(getActivity(), R.layout.todofloat, null);
+                View dlgTitle = getActivity().getLayoutInflater().inflate(R.layout.custom_dlg_title, null);
+                TextView dlgTitleContents = dlgTitle.findViewById(R.id.text);
                 Todo target = data.get(todo);
                 CheckBox checkBox = dialogView.findViewById(R.id.todoCheckBox);
                 AlertDialog.Builder dlg = new AlertDialog.Builder(getActivity());
                 TextView popup = dialogView.findViewById(R.id.popupTodoText);
+                TextView quote = dialogView.findViewById(R.id.quoteText);
                 popup.setText(target.getText());
                 if(target.isDone()) {
                     checkBox.setChecked(true);
                     popup.setPaintFlags(popup.getPaintFlags()|Paint.STRIKE_THRU_TEXT_FLAG);
                 }
-                dlg.setTitle("TO-DO LIST");
-                dlg.setIcon(R.mipmap.ic_launcher);
+                String text = requestQuote();
+                Log.d("greentea", text);
+                String niceQuote = jsonParser(requestQuote());
+                if (niceQuote.length() > 100) niceQuote = "태어난 김에 산다는 마인드가 일류다 - 장영욱";
+                quote.setText(niceQuote);
+                dlgTitleContents.setText("TO-DO LIST");
+                dlg.setCustomTitle(dlgTitle);
                 dlg.setView(dialogView);
                 dlg.setNeutralButton("확인", new DialogInterface.OnClickListener(){
                     @Override
@@ -121,7 +146,6 @@ public class Fragment3 extends Fragment {
     public void todoChecked(int todo, ArrayList<Todo> data) {
         View viewOfTodo = binding.recyclerView.getLayoutManager().findViewByPosition(todo);
         TextView textTodo = viewOfTodo.findViewById(R.id.todoText);
-        Log.d("greentea", String.valueOf(textTodo.getText()));
         textTodo.setPaintFlags(textTodo.getPaintFlags()|Paint.STRIKE_THRU_TEXT_FLAG);
         data.get(todo).setDone(true);
     };
@@ -133,6 +157,62 @@ public class Fragment3 extends Fragment {
         data.get(todo).setDone(false);
     };
     //앗 좀 남았네,,,,,,
+    public String requestQuote() {
+        String result;
+        String apiUrl = "https://api.qwer.pw/request/helpful_text";
+        String apiKey = "guest";
+        String urlWithApiKey = apiUrl + "?apikey=" + apiKey;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(() -> {
+            try {
+                URL url = new URL(urlWithApiKey);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setConnectTimeout(300);
+
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String line;
+                    StringBuilder response = new StringBuilder();
+                    while ((line = reader.readLine()) != null) response.append(line);
+                    reader.close();
+                    return response.toString();
+                } else {
+                    return "[{\"result\":\"success\"},{\"respond\":\"태어난 김에 산다는 마인드가 일류다 - 장영욱\"}]";
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "[{\"result\":\"success\"},{\"respond\":\"태어난 김에 산다는 마인드가 일류다 - 장영욱\"}]";
+            }
+        });
+
+        try {
+            result = future.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "[{\"result\":\"success\"},{\"respond\":\"태어난 김에 산다는 마인드가 일류다 - 장영욱\"}]";
+        } finally {
+            executor.shutdown();
+        }
+        return result;
+    }
+
+    private String jsonParser(String target) {
+        String result = "태어난 김에 산다는 마인드가 일류다 - 장영욱";
+        try {
+            JSONArray jsonArray = new JSONArray(target);
+            if (jsonArray.length() > 0) {
+                JSONObject jsonObject = jsonArray.getJSONObject(1);  // 두 번째 객체 선택
+                result = jsonObject.getString("respond");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
 
     @Override
