@@ -34,6 +34,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 public class Fragment1 extends Fragment {
+    public static Drawable leftBackground;
+    public static Drawable rightBackground;
+    public static boolean initiated;
     private static ArrayList<String> testDataSet;
     private static CustomAdapter customAdapter;
     public Fragment1() {}
@@ -50,9 +53,6 @@ public class Fragment1 extends Fragment {
         customAdapter = new CustomAdapter(testDataSet);
         recyclerView.setAdapter(customAdapter);
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            private Drawable leftBackground;
-            private Drawable rightBackground;
-            private boolean initiated;
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -151,6 +151,7 @@ public class Fragment1 extends Fragment {
         } else {
             Toast.makeText(getActivity(), "전화 걸기 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show();
         }
+        customAdapter.clearSwipeBackground();
     }
     private void removeItem(int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
